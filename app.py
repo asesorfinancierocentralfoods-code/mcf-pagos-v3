@@ -6,7 +6,15 @@ from pathlib import Path
 import io, json
 
 # Importa BD V4 con soporte parciales + multi evidencia
-from modules.database_v4 import init_db, upsert_facturas, get_facturas_con_saldo, autorizar_pago_parcial, get_historial_autorizaciones, guardar_evidencias_multiples, get_evidencias, validar_evidencia, verificar_login
+# Compatibilidad flat
+try:
+    from modules.database_v4 import init_db, upsert_facturas, get_facturas_con_saldo, autorizar_pago_parcial, get_historial_autorizaciones, guardar_evidencias_multiples, get_evidencias, validar_evidencia, verificar_login
+    from modules.parser import parse_sat_excel
+    from modules.notifications import send_whatsapp_notification
+except ImportError:
+    from database_v4 import init_db, upsert_facturas, get_facturas_con_saldo, autorizar_pago_parcial, get_historial_autorizaciones, guardar_evidencias_multiples, get_evidencias, validar_evidencia, verificar_login
+    from parser import parse_sat_excel
+    from notifications import send_whatsapp_notification
 
 st.set_page_config(page_title="MCF V3 Final | Gerencia + Excel", page_icon="🥑", layout="wide")
 
